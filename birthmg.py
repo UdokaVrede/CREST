@@ -1,6 +1,6 @@
 from tkinter import *
 from tkinter import messagebox
-from db import Database
+from mydb import Database
 
 #import database
 db=Database('Store records.db')
