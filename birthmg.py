@@ -1,6 +1,8 @@
 from tkinter import *
 from tkinter import messagebox
 from mydb import Database
+from tkcalendar import DateEntry,Calendar
+import datetime
 
 #import database
 db=Database('Store records.db')
@@ -51,7 +53,9 @@ def view_birth():
 
 #show only entries for today      
 def today_view():#yet to be designed??????
-    print('okay')    
+    selected_date = cal.get_date()
+    if date_today == selected_date:
+        print('Fuck it')
 
 def client_exit():
       exit()
@@ -60,8 +64,23 @@ def client_exit():
 def clear_item():
     name_entry.delete(0, END)
     birthday_entry.delete(0, END)
-   
+
 app=Tk()
+
+cur_date = datetime.datetime.today()
+date_today=cur_date.strftime("%d/%m/%Y")
+
+current_year = int(cur_date.year)
+current_month=int(cur_date.month)
+current_day=int(cur_date.day)
+
+cal = Calendar(app, width =12,selectmode='day', year=current_year, month=current_month, day=current_day, 
+background='darkblue', foreground='white', borderwidth=2, date_pattern ='dd/mm/yyyy')
+cal.grid(row=0, column=3)
+
+def kalenda():
+    birthday_entry.config(text=cal.get_date())
+
 #widget 
 name_text = StringVar()
 name_label = Label(app, text = 'Name', font=('bold',14), pady = 5, padx=20)
@@ -71,11 +90,14 @@ name_entry = Entry(app,textvariable=name_text)
 name_entry.grid(row=0, column=1)
 
 #widget for birthday
-birthday_text = StringVar()
 birthday_label = Label(app, text = 'Birth Date', font=('bold',14),padx =5, pady = 20)
 birthday_label.grid(row = 0, column=2, sticky=W)
-#text entry box
-birthday_entry = Entry(app,textvariable=birthday_text)
+
+birthbtn= Button(app, text='Ok', command =kalenda)
+birthbtn.grid(row=0, column=2)
+
+birthday_text=cal.get_date
+birthday_entry = Label(app, text="")
 birthday_entry.grid(row=0, column=3)
 
 #listbox widget
