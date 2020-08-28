@@ -7,14 +7,20 @@ import datetime
 #import database
 db=Database('Store records.db')
 
+
+
+def kalenda(e):
+    h = e.widget        #accepts widget event 'e'
+    global birthday_text
+    birthday_text = h.get_date().strftime("%d/%m/%Y")
+    
+
 #add new entries
-def addbirth():       
-    if (name_text.get() == '') or (birthday_text.get() == ''):
+def addbirth():      
+    if (name_text.get() == '') or (birthday_text == ''):
         messagebox.showerror('Required Fields', "Please include all fields")   
-        return                                   
-    db.insert(name_text.get(), birthday_text.get())
-    list_box.delete(0, END)
-    list_box.insert(END, name_text.get(), birthday_text.get())
+        return              
+    db.insert(name_text.get(), birthday_text)
     view_birth()
 
 #select item from entries
@@ -26,8 +32,6 @@ def select_item(event):
 
         name_entry.delete(0, END)
         name_entry.insert(END, selected_item[1])
-        birthday_entry.delete(0, END)
-        birthday_entry.insert(END, selected_item[2])
     except IndexError:
         pass
 
@@ -39,7 +43,7 @@ def delete_birth():
 
 #function for updating and editing records
 def update_birth():
-    db.update(selected_item[0], name_text.get(), birthday_text.get())
+    db.update(selected_item[0], name_text.get(), birthday_text)
     view_birth()
 
 #show all entries
@@ -52,21 +56,28 @@ def view_birth():
         list_box.insert(END,new_row)
 
 #show only entries for today      
-def today_view():#yet to be designed??????
-    selected_date = cal.get_date()
-    if date_today == selected_date:
-        print('Fuck it')
-
+def today_view(): 
+    list_box.delete(0, END)
+    count=0
+    list_box.insert(END, 'YOUR BIRTHDAYS TODAY')
+    for name,date in db.fetch():
+        if date == date_today:
+            count+=1
+            new_value=count, name, date
+            list_box.insert(END,new_value )
+            
+    
+#quit window
 def client_exit():
       exit()
 
 #clear input
 def clear_item():
     name_entry.delete(0, END)
-    birthday_entry.delete(0, END)
 
 app=Tk()
 
+#get the current date values
 cur_date = datetime.datetime.today()
 date_today=cur_date.strftime("%d/%m/%Y")
 
@@ -74,31 +85,23 @@ current_year = int(cur_date.year)
 current_month=int(cur_date.month)
 current_day=int(cur_date.day)
 
-cal = Calendar(app, width =12,selectmode='day', year=current_year, month=current_month, day=current_day, 
-background='darkblue', foreground='white', borderwidth=2, date_pattern ='dd/mm/yyyy')
+#initializing the calendar
+cal = DateEntry(app, width =12, selectmode='day', year=current_year, month=current_month, day=current_day, 
+background='darkblue', foreground='white',font ="Arial 12", borderwidth=2, date_pattern ='dd/mm/yyyy')
 cal.grid(row=0, column=3)
 
-def kalenda():
-    birthday_entry.config(text=cal.get_date())
 
 #widget 
 name_text = StringVar()
-name_label = Label(app, text = 'Name', font=('bold',14), pady = 5, padx=20)
+name_label = Label(app, text = 'Name', font=('bold',14), pady = 5, padx=5)
 name_label.grid(row = 0, column=0, sticky=W)
 #text entry box
 name_entry = Entry(app,textvariable=name_text)
 name_entry.grid(row=0, column=1)
 
-#widget for birthday
+#widget for birthdate label
 birthday_label = Label(app, text = 'Birth Date', font=('bold',14),padx =5, pady = 20)
 birthday_label.grid(row = 0, column=2, sticky=W)
-
-birthbtn= Button(app, text='Ok', command =kalenda)
-birthbtn.grid(row=0, column=2)
-
-birthday_text=cal.get_date
-birthday_entry = Label(app, text="")
-birthday_entry.grid(row=0, column=3)
 
 #listbox widget
 list_box=Listbox(app, height=11, width=45, border=0)
@@ -110,8 +113,11 @@ scrollbar.grid(row=3,column=3)
 #set scrollbar to listbox
 list_box.configure(yscrollcommand=scrollbar.set)
 scrollbar.configure(command=list_box.yview)
-#bind select
+
+#bind select action
 list_box.bind('<<ListboxSelect>>',select_item)
+#bind dateentry
+cal.bind("<<DateEntrySelected>>",kalenda)
 
 #buttons
 add_btn=Button(app, text='Add Birthday', width=11, command=addbirth)
