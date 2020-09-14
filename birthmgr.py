@@ -10,8 +10,8 @@ db=Database('Store records.db')
 
 
 def kalenda(e):
-    h = e.widget        #accepts widget event 'e'
     global birthday_text
+    h = e.widget        #accepts widget event 'e'
     birthday_text = h.get_date().strftime("%d/%m/%Y")
     
 
@@ -88,20 +88,20 @@ current_day=int(cur_date.day)
 #initializing the calendar
 cal = DateEntry(app, width =12, selectmode='day', year=current_year, month=current_month, day=current_day, 
 background='darkblue', foreground='white',font ="Arial 12", borderwidth=2, date_pattern ='dd/mm/yyyy')
-cal.grid(row=0, column=3)
+cal.grid(row=0, column=3,sticky='w')
 
 
 #widget 
 name_text = StringVar()
 name_label = Label(app, text = 'Name', font=('bold',14), pady = 5, padx=5)
-name_label.grid(row = 0, column=0, sticky=W)
+name_label.grid(row = 0, column=0, sticky='w')
 #text entry box
 name_entry = Entry(app,textvariable=name_text)
-name_entry.grid(row=0, column=1)
+name_entry.grid(row=0, column=1,sticky = 'w')
 
 #widget for birthdate label
-birthday_label = Label(app, text = 'Birth Date', font=('bold',14),padx =5, pady = 20)
-birthday_label.grid(row = 0, column=2, sticky=W)
+birthday_label = Label(app, text = 'Birth Date', font=('bold',14),padx =5)
+birthday_label.grid(row = 0, column=2, sticky='w')
 
 #listbox widget
 list_box=Listbox(app, height=11, width=45, border=0)
@@ -142,6 +142,6 @@ exit_btn.grid(row=8, column=2, pady=10)
 view_birth()
 
 app.title('Birthday App')  
-app.geometry('690x520')
+#app.geometry('690x520')
 
 app.mainloop()
