@@ -9,7 +9,7 @@ class Database:
         self.conn.commit()
 
     def fetch(self):
-        self.cur.execute("SELECT name,birthday FROM parts")
+        self.cur.execute("SELECT id,name,birthday FROM parts")
         rows = self.cur.fetchall()
         return rows
 
