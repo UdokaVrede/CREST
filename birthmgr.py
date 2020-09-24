@@ -7,14 +7,20 @@ import datetime
 #import database
 db=Database('Store records.db')
 
+#get the current date values
+cur_date = datetime.datetime.today()
+date_today=cur_date.strftime("%d/%m/%Y")
 
+current_year = int(cur_date.year)
+current_month=int(cur_date.month)
+current_day=int(cur_date.day)
 
 def kalenda(e):
     global birthday_text
-    h = e.widget        #accepts widget event 'e'
-    birthday_text = h.get_date().strftime("%d/%m/%Y")
+    box = e.widget        #accepts widget event 'e'
+    birthday_text = box.get_date().strftime("%d/%m/%Y")         # get date and format date 
     
-
+    
 #add new entries
 def addbirth():      
     if (name_text.get() == '') or (birthday_text == ''):
@@ -29,9 +35,10 @@ def select_item(event):
         global selected_item
         index = list_box.curselection()[0]
         selected_item = list_box.get(index)
-
-        name_entry.delete(0, END)
-        name_entry.insert(END, selected_item[1])
+        
+        name_entry.delete(0, END)       #delete existing name entries
+        name_entry.insert(END, selected_item[1])    #insert name value in entry box
+        
     except IndexError:
         pass
 
@@ -43,29 +50,29 @@ def delete_birth():
 
 #function for updating and editing records
 def update_birth():
-    db.update(selected_item[0], name_text.get(), birthday_text)
+    db.update(selected_item[0],name_text.get(), birthday_text)
     view_birth()
 
 #show all entries
 def view_birth():
     list_box.delete(0, END)
-    count = 0
-    for NAME,DATE in db.fetch():
-        count+=1
-        new_row = count, NAME, DATE
-        list_box.insert(END,new_row)
+    for db_records in db.fetch():
+        list_box.insert(END,db_records)
 
 #show only entries for today      
 def today_view(): 
     list_box.delete(0, END)
-    count=0
+    Indx=0
     list_box.insert(END, 'YOUR BIRTHDAYS TODAY')
-    for name,date in db.fetch():
+    for iD, name,date in db.fetch():
         if date == date_today:
-            count+=1
-            new_value=count, name, date
+            Indx+=1
+            new_value=Indx, name, date
             list_box.insert(END,new_value )
-            
+        elif date != date_today:
+            list_box.delete(0, END)
+            messagebox.showinfo(' ','YOU HAVE NO BIRTHDAYS TODAY')
+            return
     
 #quit window
 def client_exit():
@@ -77,13 +84,6 @@ def clear_item():
 
 app=Tk()
 
-#get the current date values
-cur_date = datetime.datetime.today()
-date_today=cur_date.strftime("%d/%m/%Y")
-
-current_year = int(cur_date.year)
-current_month=int(cur_date.month)
-current_day=int(cur_date.day)
 
 #initializing the calendar
 cal = DateEntry(app, width =12, selectmode='day', year=current_year, month=current_month, day=current_day, 
@@ -141,7 +141,7 @@ exit_btn.grid(row=8, column=2, pady=10)
 #view birthday
 view_birth()
 
-app.title('Birthday App')  
+app.title('Crest')  
 #app.geometry('690x520')
 
 app.mainloop()
