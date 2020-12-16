@@ -19,15 +19,17 @@ def kalenda(e):
     global birthday_text
     box = e.widget        #accepts widget event 'e'
     birthday_text = box.get_date().strftime("%d/%m/%Y")         # get date and format date 
-    
-    
+     
 #add new entries
-def addbirth():      
-    if (name_text.get() == '') or (birthday_text == ''):
-        messagebox.showerror('Required Fields', "Please include all fields")   
-        return              
-    db.insert(name_text.get(), birthday_text)
-    view_birth()
+def addbirth(): 
+    try:     
+        if (name_text.get() == '') or (birthday_text == ''):
+            messagebox.showerror('Required Fields', "Please include all fields")   
+            return              
+        db.insert(name_text.get(), birthday_text)
+        view_birth()
+    except NameError:
+        messagebox.showinfo("Required field","PLEASE SELECT A DATE")
 
 #select item from entries
 def select_item(event):
@@ -44,9 +46,15 @@ def select_item(event):
 
 #remove birthday    
 def delete_birth():
-    db.remove(selected_item[0])
-    clear_item()
-    view_birth()
+    try:
+        if selected_item[0] in DICT_A.keys():
+            val = DICT_A[selected_item[0]]
+            db.remove(val[0])
+        clear_item()
+        view_birth()
+    except NameError:
+        messagebox.showinfo("Error","SELECT A RECORD TO BE DELETED")
+    
 
 #function for updating and editing records
 def update_birth():
@@ -55,41 +63,48 @@ def update_birth():
 
 #show all entries
 def view_birth():
+    global DICT_A
+    DICT_A = {}
     list_box.delete(0, END)
-    for db_records in db.fetch():
-        list_box.insert(END,db_records)
+    for idx,(id,name,bday) in enumerate(db.fetch()):
+        idx = idx+1
+        db_record = id,name,bday
+        display_record = idx,name,bday
+        DICT_A[idx]=list(db_record)     
+        list_box.insert(END,display_record)
 
 #show only entries for today      
 def today_view(): 
     list_box.delete(0, END)
-    Indx=0
-    list_box.insert(END, 'YOUR BIRTHDAYS TODAY')
-    for iD, name,date in db.fetch():
+    today_list,Indx=[],0
+    for iD,name,date in db.fetch():
         if date == date_today:
             Indx+=1
             new_value=Indx, name, date
+            today_list.append(list(new_value))
             list_box.insert(END,new_value )
-        elif date != date_today:
-            list_box.delete(0, END)
-            messagebox.showinfo(' ','YOU HAVE NO BIRTHDAYS TODAY')
-            return
-    
+    if  today_list == []:
+        messagebox.showinfo("","YOU HAVE NO BIRTHDAY TODAY")
+
 #quit window
 def client_exit():
       exit()
 
 #clear input
+def view_all():
+    view_birth()
+    if DICT_A == {}:
+        messagebox.showinfo("YOU HAVE NOT ENTERED ANY BIRTHDAY","PLEASE ENTER A BIRTHDAY DETAIL")
+
 def clear_item():
     name_entry.delete(0, END)
 
 app=Tk()
 
-
 #initializing the calendar
 cal = DateEntry(app, width =12, selectmode='day', year=current_year, month=current_month, day=current_day, 
 background='darkblue', foreground='white',font ="Arial 12", borderwidth=2, date_pattern ='dd/mm/yyyy')
 cal.grid(row=0, column=3,sticky='w')
-
 
 #widget 
 name_text = StringVar()
@@ -109,7 +124,7 @@ list_box.grid(row=3, column=1, columnspan=2, rowspan=4, padx=2, pady=20)
 
 #scrollbar
 scrollbar = Scrollbar(app)
-scrollbar.grid(row=3,column=3)
+scrollbar.grid(row=3,column=3, columnspan =2 )
 #set scrollbar to listbox
 list_box.configure(yscrollcommand=scrollbar.set)
 scrollbar.configure(command=list_box.yview)
@@ -132,8 +147,8 @@ delete_btn.grid(row=2, column=2, pady=20)
 today_btn=Button(app, text='Birthdays Today', width=11, command=today_view)
 today_btn.grid(row=2, column=3, pady=20)
 
-clear_btn=Button(app, text='Clear Input', width=11, command=clear_item)
-clear_btn.grid(row=8, column=1, pady =10)
+view_all_btn=Button(app, text='View All', width=11, command=view_all)
+view_all_btn.grid(row=8, column=1, pady =10)
 
 exit_btn=Button(app, text='Exit', width=10, command=client_exit)
 exit_btn.grid(row=8, column=2, pady=10)
@@ -141,7 +156,7 @@ exit_btn.grid(row=8, column=2, pady=10)
 #view birthday
 view_birth()
 
-app.title('Crest')  
-#app.geometry('690x520')
+app.title('Crest') 
+app.geometry('670x420')
 
 app.mainloop()
