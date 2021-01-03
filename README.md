@@ -1,7 +1,6 @@
 CREST... *always remember the date*
 =====================
-
-[![current version](https://img.shields.io/badge/version-1.0-green.svg) [![Live Demo](https://img.shields.io/badge/demo-online-green.svg)]()
+![current version](https://img.shields.io/badge/version-1.0-green.svg) [![Live Demo](https://img.shields.io/badge/demo-online-green.svg)]()
 
 This is a desktop application written in Python that provides the functions of storing and reminding the user of birthdays each day there is a birthday.
 
@@ -9,7 +8,7 @@ This is a desktop application written in Python that provides the functions of s
 
 ![app1.png](https://cdn.hashnode.com/res/hashnode/image/upload/v1609688248634/aMbvI_L2j.png)
 
-##Tech stack
+## Tech stack
 - Python
 - Sqlite3
 - Tkinter
