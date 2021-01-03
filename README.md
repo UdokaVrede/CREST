@@ -1,14 +1,43 @@
-# CREST
+CREST... *always remember the date*
+=====================
+![current version](https://img.shields.io/badge/version-1.0-green.svg) [![Live Demo](https://img.shields.io/badge/demo-online-green.svg)]()
 
-This app helps store and remind the user of birthdays.
+This is a desktop application written in Python that provides the functions of storing and reminding the user of birthdays each day there is a birthday.
 
-### Overview of the app
-![app1](/home/udoka/Pictures/app1.png)
+### Application preview
 
+![app1.png](https://cdn.hashnode.com/res/hashnode/image/upload/v1609688248634/aMbvI_L2j.png)
+
+## Tech stack
+- Python
+- Sqlite3
+- Tkinter
+
+## System requirements
 This app is still in its development phase, reviews and corrections are highly accepted.
 Also in other to made contributions to this project, the following system requirements need to be met:
 
 - Install Python
 - Install Tkinter 
-- Install tkcalendar 
 - Install Sqlite3
+
+## Project Setup
+- clone this project to your desktop
+- cd into the root directory and run `python setup.py`
+
+## What I learnt
+- How to manipulate records
+- How to use the tkinter library
+- How to work with a database
+- Improved my python skills
+
+## Challenges
+- One of the challenges I faced was effectively deleting a  record from the database without affecting the number format on the listbox.
+
+## Pipeline features
+- Turning this project to executable and publishing
+
+## License
+>You can check out the full license [here](https://github.com/IgorAntun/node-chat/blob/master/LICENSE)
+
+This project is licensed under the terms of the **MIT** license.
