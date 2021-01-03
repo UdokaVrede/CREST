@@ -6,7 +6,9 @@ This is a desktop application written in Python that provides the functions of s
 
 ### Application preview
 
-![app1.png](https://cdn.hashnode.com/res/hashnode/image/upload/v1609688248634/aMbvI_L2j.png)
+
+![app2.png](https://cdn.hashnode.com/res/hashnode/image/upload/v1609690013386/ngsnCFGKh.png)
+
 
 ## Tech stack
 - Python
