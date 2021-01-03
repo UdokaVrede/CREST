@@ -15,6 +15,8 @@ current_year = int(cur_date.year)
 current_month=int(cur_date.month)
 current_day=int(cur_date.day)
 
+
+
 def kalenda(e):
     global birthday_text
     box = e.widget        #accepts widget event 'e'
@@ -58,8 +60,11 @@ def delete_birth():
 
 #function for updating and editing records
 def update_birth():
-    db.update(selected_item[0],name_text.get(), birthday_text)
-    view_birth()
+    try:
+        db.update(selected_item[0],name_text.get(), birthday_text)
+        view_birth()
+    except NameError:
+        messagebox.showinfo("ERROR","PLEASE SELECT A RECORD")
 
 #show all entries
 def view_birth():
@@ -85,6 +90,7 @@ def today_view():
             list_box.insert(END,new_value )
     if  today_list == []:
         messagebox.showinfo("","YOU HAVE NO BIRTHDAY TODAY")
+        view_birth()
 
 #quit window
 def client_exit():
@@ -99,6 +105,8 @@ def view_all():
 def clear_item():
     name_entry.delete(0, END)
 
+# def start_gui():
+#     global list_box, name_entry,name_text, birthday_label
 app=Tk()
 
 #initializing the calendar
@@ -160,3 +168,4 @@ app.title('Crest')
 app.geometry('670x420')
 
 app.mainloop()
+    
