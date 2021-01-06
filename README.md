@@ -25,7 +25,7 @@ Also in other to made contributions to this project, the following system requir
 
 ## Project Setup
 - clone this project to your desktop
-- cd into the root directory and run `python setup.py`
+- cd into the root directory and run `python birthmgr.py`
 
 ## What I learnt
 - How to manipulate records
