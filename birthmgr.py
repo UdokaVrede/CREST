@@ -25,7 +25,7 @@ def kalenda(e):
 #add new entries
 def addbirth(): 
     try:     
-        if (name_text.get() == '') and (birthday_text == ''):
+        if (name_text.get() == '') or (birthday_text == ''):
             messagebox.showerror('Required Fields', "Please include all fields")   
             return              
         db.insert(name_text.get(), birthday_text)
