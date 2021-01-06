@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 from tkinter import *
 from tkinter import messagebox
 from mydb import Database
@@ -14,8 +16,6 @@ date_today=cur_date.strftime("%d/%m/%Y")
 current_year = int(cur_date.year)
 current_month=int(cur_date.month)
 current_day=int(cur_date.day)
-
-
 
 def kalenda(e):
     global birthday_text
@@ -57,7 +57,6 @@ def delete_birth():
     except NameError:
         messagebox.showinfo("Error","SELECT A RECORD TO BE DELETED")
     
-
 #function for updating and editing records
 def update_birth():
     try:
@@ -105,8 +104,6 @@ def view_all():
 def clear_item():
     name_entry.delete(0, END)
 
-# def start_gui():
-#     global list_box, name_entry,name_text, birthday_label
 app=Tk()
 
 #initializing the calendar
@@ -162,10 +159,9 @@ exit_btn=Button(app, text='Exit', width=10, command=client_exit)
 exit_btn.grid(row=8, column=2, pady=10)
 
 #view birthday
-view_birth()
+today_view()
 
 app.title('Crest') 
 app.geometry('670x420')
 
 app.mainloop()
-    

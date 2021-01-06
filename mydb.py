@@ -1,5 +1,4 @@
 import sqlite3
-from tkinter import messagebox
 
 class Database:
     def __init__(self,db):
@@ -28,7 +27,3 @@ class Database:
 
     def __del__(self):
         self.conn.close()
-
-
-
-#db=Database
