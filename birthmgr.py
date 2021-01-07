@@ -74,8 +74,7 @@ def view_birth():
     global DICT_A
     DICT_A = {}
     list_box.delete(0, END)
-    for idx,(id,name,bday) in enumerate(db.fetch()):
-        idx = idx+1
+    for idx,(id,name,bday) in enumerate(db.fetch(), start=1):
         DICT_A[idx]=id
         display_record = idx,name,bday     
         list_box.insert(END,display_record)
