@@ -1,12 +1,13 @@
-#!/usr/bin/python3
-
+#!/usr/bin/env python3
+#import modules
+import datetime
 from tkinter import *
 from tkinter import messagebox
-from mydb import Database
 from tkcalendar import DateEntry,Calendar
-import datetime
 
-#import database
+from mydb import Database
+
+#initialize the database to the db variable
 db=Database('Store records.db')
 
 #get the current date values
@@ -17,6 +18,7 @@ current_year = int(cur_date.year)
 current_month=int(cur_date.month)
 current_day=int(cur_date.day)
 
+#event handler 
 def kalenda(e):
     global birthday_text
     box = e.widget        #accepts widget event 'e'
@@ -51,7 +53,7 @@ def delete_birth():
     try:
         if selected_item[0] in DICT_A.keys():
             val = DICT_A[selected_item[0]]
-            db.remove(val[0])
+            db.remove(val)
         clear_item()
         view_birth()
     except NameError:
@@ -60,7 +62,9 @@ def delete_birth():
 #function for updating and editing records
 def update_birth():
     try:
-        db.update(selected_item[0],name_text.get(), birthday_text)
+        if selected_item[0] in DICT_A.keys():
+            valu = DICT_A[selected_item[0]]
+        db.update(valu,name_text.get(), birthday_text)
         view_birth()
     except NameError:
         messagebox.showinfo("ERROR","PLEASE SELECT A RECORD")
@@ -72,9 +76,8 @@ def view_birth():
     list_box.delete(0, END)
     for idx,(id,name,bday) in enumerate(db.fetch()):
         idx = idx+1
-        db_record = id,name,bday
-        display_record = idx,name,bday
-        DICT_A[idx]=list(db_record)     
+        DICT_A[idx]=id
+        display_record = idx,name,bday     
         list_box.insert(END,display_record)
 
 #show only entries for today      
@@ -85,10 +88,10 @@ def today_view():
         if date == date_today:
             Indx+=1
             new_value=Indx, name, date
-            today_list.append(list(new_value))
             list_box.insert(END,new_value )
+            today_list.append(list(new_value))
     if  today_list == []:
-        messagebox.showinfo("","YOU HAVE NO BIRTHDAY TODAY")
+        messagebox.showinfo("","YOU HAVE NO BIRTHDAY ENTRIES TODAY")
         view_birth()
 
 #quit window

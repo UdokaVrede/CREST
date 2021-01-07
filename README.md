@@ -1,8 +1,8 @@
 CREST... *always remember the date*
 =====================
-![current version](https://img.shields.io/badge/version-1.0-green.svg) [![Live Demo](https://img.shields.io/badge/demo-online-green.svg)]()
+![current version](https://img.shields.io/badge/version-1.0-green.svg)
 
-This is a desktop application written in Python that provides the functions of storing and reminding the user of birthdays each day there is a birthday.
+This is a desktop application written in Python that provides the functions of storing and reminding the user of birthdays each day there is a birthday.On executing this project, the birthdays for each day is shown if there exists any record for the day.
 
 ### Application preview
 
@@ -35,7 +35,8 @@ Also in other to made contributions to this project, the following system requir
 - One of the challenges I faced was effectively deleting a  record from the database without affecting the number format on the listbox.
 
 ## Pipeline features
-- Turning this project to executable and publishing
+- Feature for automatic execution daily.
+- Turning this project to executable and publishing.
 
 ## License
 >You can check out the full license [here](https://github.com/IgorAntun/node-chat/blob/master/LICENSE)
